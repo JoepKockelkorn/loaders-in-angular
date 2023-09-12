@@ -1,6 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  NavigationCancel,
+  NavigationCancellationCode,
   Router,
   RouterLink,
   RouterLinkActive,
@@ -15,10 +17,21 @@ import { AuthService } from './auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   #authService = inject(AuthService);
   #router = inject(Router);
   protected user$ = this.#authService.user$;
+
+  ngOnInit() {
+    this.#router.events.subscribe((event) => {
+      if (
+        event instanceof NavigationCancel &&
+        event.code === NavigationCancellationCode.NoDataFromResolver
+      ) {
+        this.#router.navigateByUrl('/404');
+      }
+    });
+  }
 
   logout() {
     this.#authService.logout();

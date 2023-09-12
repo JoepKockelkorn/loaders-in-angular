@@ -1,12 +1,30 @@
 import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
+  CanActivateFn,
   Router,
   RouterStateSnapshot,
   Routes,
 } from '@angular/router';
 import { AuthService } from './auth.service';
-import { map } from 'rxjs';
+import { filter, map, of } from 'rxjs';
+import { BooksService } from './books.service';
+
+const authGuard: CanActivateFn = (
+  _route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const router = inject(Router);
+  return inject(AuthService).user$.pipe(
+    map((user) =>
+      user === 'logged out'
+        ? router.createUrlTree(['/', 'login'], {
+            queryParams: { redirect: state.url },
+          })
+        : true
+    )
+  );
+};
 
 export const routes: Routes = [
   {
@@ -17,25 +35,24 @@ export const routes: Routes = [
   { path: 'login', loadComponent: () => import('./login.component') },
   {
     path: '',
-    canActivate: [
-      (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-        const router = inject(Router);
-        return inject(AuthService).user$.pipe(
-          map((user) =>
-            user === 'logged out'
-              ? router.createUrlTree(['/', 'login'], {
-                  queryParams: { redirect: state.url },
-                })
-              : true
-          )
-        );
-      },
-    ],
+    canActivate: [authGuard],
     children: [
-      { path: 'books', loadComponent: () => import('./books.component') },
+      {
+        path: 'books',
+        loadComponent: () => import('./books.component'),
+        resolve: { books: () => inject(BooksService).getBooks() },
+      },
       {
         path: 'books/:bookId',
         loadComponent: () => import('./book-details.component'),
+        resolve: {
+          book: (route: ActivatedRouteSnapshot) => {
+            const bookId = route.paramMap.get('bookId');
+            return of(inject(BooksService).getBook(bookId!)).pipe(
+              filter(Boolean)
+            );
+          },
+        },
         children: [
           {
             path: 'general',

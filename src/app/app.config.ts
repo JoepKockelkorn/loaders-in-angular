@@ -1,7 +1,9 @@
 import { ApplicationConfig } from '@angular/core';
 import {
+  PreloadAllModules,
   provideRouter,
   withComponentInputBinding,
+  withPreloading,
   withRouterConfig,
 } from '@angular/router';
 
@@ -12,7 +14,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       routes,
       withRouterConfig({ paramsInheritanceStrategy: 'always' }),
-      withComponentInputBinding()
+      withComponentInputBinding(),
+      withPreloading(PreloadAllModules)
     ),
   ],
 };

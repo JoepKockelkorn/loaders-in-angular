@@ -1,4 +1,22 @@
-<nav>Hello World</nav>
+<nav *ngIf="user$ | async as user">
+  <a
+    [routerLink]="['/']"
+    routerLinkActive
+    [routerLinkActiveOptions]="{ exact: true }"
+    ariaCurrentWhenActive="page"
+    >Home</a
+  >
+  <ng-container *ngIf="user !== 'logged out'">
+    <a
+      [routerLink]="['/', 'books']"
+      routerLinkActive
+      ariaCurrentWhenActive="page"
+      >Books</a
+    >
+    <span style="margin-left: auto">{{ user.name }}</span>
+    <button (click)="logout()">Logout</button>
+  </ng-container>
+</nav>
 
 <main>
   <router-outlet></router-outlet>

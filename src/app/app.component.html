@@ -13,7 +13,10 @@
       ariaCurrentWhenActive="page"
       >Books</a
     >
-    <span style="margin-left: auto">{{ user.name }}</span>
+    <span style="margin-left: auto">
+      {{ user.name }}
+      <ng-container *ngIf="user.isAdmin">🔒</ng-container>
+    </span>
     <button (click)="logout()">Logout</button>
   </ng-container>
 </nav>

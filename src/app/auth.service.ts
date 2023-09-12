@@ -3,6 +3,7 @@ import { BehaviorSubject, tap, timer } from 'rxjs';
 
 export interface User {
   name: string;
+  isAdmin: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -13,10 +14,10 @@ export class AuthService {
     return this.#user$.asObservable();
   }
 
-  login() {
+  login(userType: 'admin' | 'user') {
     return timer(500).pipe(
       tap(() => {
-        const user = { name: 'Joep Kockelkorn' };
+        const user = { name: 'Joep Kockelkorn', isAdmin: userType === 'admin' };
         this.#user$.next(user);
         setSessionUser(user);
       })

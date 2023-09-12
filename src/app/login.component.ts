@@ -8,7 +8,10 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule],
-  template: `<button (click)="login()">Complete login</button>`,
+  template: `
+    <button (click)="login()">Login as user</button>
+    <button (click)="login('admin')">Login as admin</button>
+  `,
   styles: [],
 })
 export default class LoginComponent {
@@ -18,9 +21,9 @@ export default class LoginComponent {
   );
   #router = inject(Router);
 
-  login() {
+  login(userType: 'admin' | 'user' = 'user') {
     this.#authService
-      .login()
+      .login(userType)
       .pipe(
         withLatestFrom(this.#redirect),
         tap(([_, redirect]) => this.#router.navigateByUrl(redirect))

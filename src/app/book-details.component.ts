@@ -1,12 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ActivatedRouteSnapshot,
-  ResolveFn,
-  RouterLink,
-  RouterLinkActive,
-  RouterOutlet,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, ResolveFn, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Book, BooksService } from './books.service';
 import { AuthService } from './auth.service';
 import { filter, from, of } from 'rxjs';
@@ -26,19 +20,8 @@ export const loader: ResolveFn<Book> = (route: ActivatedRouteSnapshot) => {
       <ng-container *ngIf="user !== 'logged out'">
         <h1>{{ book.title }}</h1>
         <div style="display: flex; flex-flow: row nowrap; gap: 8px;">
-          <a
-            [routerLink]="['./', 'general']"
-            routerLinkActive
-            ariaCurrentWhenActive="page"
-            >General</a
-          >
-          <a
-            *ngIf="book.isAdmin"
-            [routerLink]="['./', 'admin']"
-            routerLinkActive
-            ariaCurrentWhenActive="page"
-            >Admin</a
-          >
+          <a [routerLink]="['./', 'general']" routerLinkActive ariaCurrentWhenActive="page">General</a>
+          <a *ngIf="book.isAdmin" [routerLink]="['./', 'admin']" routerLinkActive ariaCurrentWhenActive="page">Admin</a>
         </div>
         <router-outlet></router-outlet>
         <div>

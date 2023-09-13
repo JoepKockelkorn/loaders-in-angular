@@ -1,16 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  NavigationCancel,
-  NavigationCancellationCode,
-  NavigationEnd,
-  NavigationError,
-  NavigationStart,
-  Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterOutlet,
-} from '@angular/router';
+import { NavigationCancel, NavigationCancellationCode, NavigationEnd, NavigationError, NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from './auth.service';
 import { filter, map } from 'rxjs';
 
@@ -26,22 +16,13 @@ export class AppComponent implements OnInit {
   #router = inject(Router);
   protected user$ = this.#authService.user$;
   protected isLoading$ = this.#router.events.pipe(
-    filter(
-      (e) =>
-        e instanceof NavigationStart ||
-        e instanceof NavigationEnd ||
-        e instanceof NavigationCancel ||
-        e instanceof NavigationError
-    ),
-    map((e) => e instanceof NavigationStart)
+    filter((e) => e instanceof NavigationStart || e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError),
+    map((e) => e instanceof NavigationStart),
   );
 
   ngOnInit() {
     this.#router.events.subscribe((event) => {
-      if (
-        event instanceof NavigationCancel &&
-        event.code === NavigationCancellationCode.NoDataFromResolver
-      ) {
+      if (event instanceof NavigationCancel && event.code === NavigationCancellationCode.NoDataFromResolver) {
         this.#router.navigateByUrl('/404', { replaceUrl: true });
       }
     });

@@ -4,8 +4,7 @@ import { BooksService, MinimalBook } from './books.service';
 import { ResolveFn, RouterLink } from '@angular/router';
 import { Resolved } from './types';
 
-export const loader: ResolveFn<MinimalBook[]> = () =>
-  inject(BooksService).getBooks();
+export const loader: ResolveFn<MinimalBook[]> = () => inject(BooksService).getBooks();
 
 @Component({
   selector: 'app-books',

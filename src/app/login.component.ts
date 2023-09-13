@@ -13,9 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export default class LoginComponent {
   #authService = inject(AuthService);
-  #redirect = inject(ActivatedRoute).queryParamMap.pipe(
-    map((qp) => qp.get('redirect') || '/')
-  );
+  #redirect = inject(ActivatedRoute).queryParamMap.pipe(map((qp) => qp.get('redirect') || '/'));
   #router = inject(Router);
 
   login() {
@@ -23,7 +21,7 @@ export default class LoginComponent {
       .login()
       .pipe(
         withLatestFrom(this.#redirect),
-        tap(([_, redirect]) => this.#router.navigateByUrl(redirect))
+        tap(([_, redirect]) => this.#router.navigateByUrl(redirect)),
       )
       .subscribe();
   }

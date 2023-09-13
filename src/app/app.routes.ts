@@ -5,21 +5,13 @@ import { loader as bookLoader } from './book-details.component';
 import { loader as booksLoader } from './books.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    loadComponent: () => import('./home.component'),
-  },
+  { path: '', pathMatch: 'full', loadComponent: () => import('./home.component') },
   { path: 'login', loadComponent: () => import('./login.component') },
   {
     path: '',
     canActivate: [authGuard],
     children: [
-      {
-        path: 'books',
-        loadComponent: () => import('./books.component'),
-        resolve: { books: booksLoader },
-      },
+      { path: 'books', loadComponent: () => import('./books.component'), resolve: { books: booksLoader } },
       {
         path: 'books/:bookId',
         loadComponent: () => import('./book-details.component'),
@@ -27,15 +19,8 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',
         resolve: { book: bookLoader },
         children: [
-          {
-            path: 'general',
-            loadComponent: () => import('./book-details-general.component'),
-          },
-          {
-            path: 'admin',
-            loadComponent: () => import('./book-details-admin.component'),
-            resolve: { isAdmin: adminLoader },
-          },
+          { path: 'general', loadComponent: () => import('./book-details-general.component') },
+          { path: 'admin', loadComponent: () => import('./book-details-admin.component'), resolve: { isAdmin: adminLoader } },
           { path: '', redirectTo: 'general', pathMatch: 'full' },
         ],
       },

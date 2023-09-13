@@ -8,10 +8,8 @@ import { loader as bookLoader } from './book-details.component';
 
 export const loader: ResolveFn<boolean> = (route: ActivatedRouteSnapshot) => {
   return of(route.parent?.data).pipe(
-    map(
-      (data) => (data!['book'] as Resolved<typeof bookLoader>).isAdmin ?? false
-    ),
-    filter(Boolean)
+    map((data) => (data!['book'] as Resolved<typeof bookLoader>).isAdmin ?? false),
+    filter(Boolean),
   );
 };
 
@@ -20,9 +18,7 @@ export const loader: ResolveFn<boolean> = (route: ActivatedRouteSnapshot) => {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div>
-      The book is: {{ book.isAvailable ? 'available' : 'not available' }}
-    </div>
+    <div>The book is: {{ book.isAvailable ? 'available' : 'not available' }}</div>
 
     <button (click)="toggle()">Toggle availability</button>
   `,

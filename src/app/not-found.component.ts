@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-not-found',
   standalone: true,
   imports: [CommonModule],
-  template: ` <p>not-found works!</p> `,
+  template: `Ooooops, not found 😱`,
   styles: [],
 })
 export default class NotFoundComponent {}

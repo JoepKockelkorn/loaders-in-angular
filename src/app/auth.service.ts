@@ -19,7 +19,7 @@ export class AuthService {
         const user = { name: 'Joep Kockelkorn' };
         this.#user$.next(user);
         setSessionUser(user);
-      })
+      }),
     );
   }
 

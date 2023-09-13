@@ -24,8 +24,8 @@ export const routes: Routes = [
       {
         path: 'books/:bookId',
         loadComponent: () => import('./book-details.component'),
-        runGuardsAndResolvers: (from, to) =>
-          from.params['bookId'] !== to.params['bookId'], // rerun resolver if bookId changes, but not when the tab changes
+        // otherwise the resolver is not called when navigating from one book to another or when switching between general and admin tabs
+        runGuardsAndResolvers: 'always',
         resolve: { book: bookLoader },
         children: [
           {

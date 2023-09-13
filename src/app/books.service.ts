@@ -40,6 +40,8 @@ const books: Book[] = [
   },
 ];
 
+// TODO: could use https://ngneat.github.io/query/ to prevent refetching and to invalidate cache when a book is updated
+
 @Injectable({ providedIn: 'root' })
 export class BooksService {
   books = books;

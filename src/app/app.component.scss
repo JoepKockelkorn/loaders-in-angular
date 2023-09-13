@@ -2,6 +2,7 @@
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
+  position: relative;
 }
 
 nav {
@@ -31,4 +32,22 @@ main {
   margin-top: 48px;
   flex-grow: 1;
   padding: 24px;
+}
+
+.loader {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.25);
+  transition: opacity 0.1s ease-out;
+  pointer-events: none;
+
+  &.visible {
+    transition: opacity 0.3s ease-in;
+    pointer-events: all;
+    opacity: 1;
+  }
 }

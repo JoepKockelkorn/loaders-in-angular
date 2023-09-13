@@ -1,30 +1,9 @@
 import { inject } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivateFn,
-  Router,
-  RouterStateSnapshot,
-  Routes,
-} from '@angular/router';
-import { AuthService } from './auth.service';
-import { filter, map, of } from 'rxjs';
+import { Routes } from '@angular/router';
 import { BooksService } from './books.service';
-
-const authGuard: CanActivateFn = (
-  _route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-) => {
-  const router = inject(Router);
-  return inject(AuthService).user$.pipe(
-    map((user) =>
-      user === 'logged out'
-        ? router.createUrlTree(['/', 'login'], {
-            queryParams: { redirect: state.url },
-          })
-        : true
-    )
-  );
-};
+import { loader as bookLoader } from './book-details.component';
+import { loader as adminLoader } from './book-details-admin.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
@@ -45,14 +24,9 @@ export const routes: Routes = [
       {
         path: 'books/:bookId',
         loadComponent: () => import('./book-details.component'),
-        resolve: {
-          book: (route: ActivatedRouteSnapshot) => {
-            const bookId = route.paramMap.get('bookId');
-            return of(inject(BooksService).getBook(bookId!)).pipe(
-              filter(Boolean)
-            );
-          },
-        },
+        runGuardsAndResolvers: (from, to) =>
+          from.params['bookId'] !== to.params['bookId'], // rerun resolver if bookId changes, but not when the tab changes
+        resolve: { book: bookLoader },
         children: [
           {
             path: 'general',
@@ -61,6 +35,7 @@ export const routes: Routes = [
           {
             path: 'admin',
             loadComponent: () => import('./book-details-admin.component'),
+            resolve: { isAdmin: adminLoader },
           },
           { path: '', redirectTo: 'general', pathMatch: 'full' },
         ],

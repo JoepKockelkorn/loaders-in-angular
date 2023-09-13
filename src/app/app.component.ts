@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import {
   NavigationCancel,
   NavigationCancellationCode,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
   Router,
   RouterLink,
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
 import { AuthService } from './auth.service';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +25,16 @@ export class AppComponent implements OnInit {
   #authService = inject(AuthService);
   #router = inject(Router);
   protected user$ = this.#authService.user$;
+  protected isLoading$ = this.#router.events.pipe(
+    filter(
+      (e) =>
+        e instanceof NavigationStart ||
+        e instanceof NavigationEnd ||
+        e instanceof NavigationCancel ||
+        e instanceof NavigationError
+    ),
+    map((e) => e instanceof NavigationStart)
+  );
 
   ngOnInit() {
     this.#router.events.subscribe((event) => {
@@ -28,7 +42,7 @@ export class AppComponent implements OnInit {
         event instanceof NavigationCancel &&
         event.code === NavigationCancellationCode.NoDataFromResolver
       ) {
-        this.#router.navigateByUrl('/404');
+        this.#router.navigateByUrl('/404', { replaceUrl: true });
       }
     });
   }

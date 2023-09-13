@@ -8,6 +8,7 @@ export interface MinimalBook {
 export interface Book extends MinimalBook {
   author: string;
   isAvailable: boolean;
+  isAdmin?: boolean;
 }
 
 const books: Book[] = [
@@ -22,6 +23,7 @@ const books: Book[] = [
     title: 'The Hobbit',
     author: 'J.R.R. Tolkien',
     isAvailable: true,
+    isAdmin: true,
   },
   {
     id: '3',
@@ -34,16 +36,35 @@ const books: Book[] = [
     title: 'The chamber of secrets',
     author: 'J.K. Rowling',
     isAvailable: true,
+    isAdmin: true,
   },
 ];
 
 @Injectable({ providedIn: 'root' })
 export class BooksService {
-  getBooks(): MinimalBook[] {
-    return books.map(({ id, title }) => ({ id, title }));
+  books = books;
+
+  getBooks(): Promise<MinimalBook[]> {
+    console.log('getBooks');
+    return delayAsPromise(this.books.map(({ id, title }) => ({ id, title })));
   }
 
   getBook(id: string) {
-    return books.find((book) => book.id === id);
+    console.log('getBook', id);
+    return delayAsPromise(this.books.find((book) => book.id === id));
   }
+
+  toggleAvailability(id: string) {
+    console.log('toggleAvailability', id);
+    this.books = this.books.map((book) =>
+      book.id === id ? { ...book, isAvailable: !book.isAvailable } : book
+    );
+    return delayAsPromise(this.books.find((book) => book.id === id));
+  }
+}
+
+function delayAsPromise<T>(value: T, delayInMs = 1000) {
+  return new Promise<T>((resolve) =>
+    setTimeout(() => resolve(value), delayInMs)
+  );
 }

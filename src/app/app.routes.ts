@@ -1,9 +1,8 @@
-import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
-import { BooksService } from './books.service';
-import { loader as bookLoader } from './book-details.component';
-import { loader as adminLoader } from './book-details-admin.component';
 import { authGuard } from './auth.guard';
+import { loader as adminLoader } from './book-details-admin.component';
+import { loader as bookLoader } from './book-details.component';
+import { loader as booksLoader } from './books.component';
 
 export const routes: Routes = [
   {
@@ -19,7 +18,7 @@ export const routes: Routes = [
       {
         path: 'books',
         loadComponent: () => import('./books.component'),
-        resolve: { books: () => inject(BooksService).getBooks() },
+        resolve: { books: booksLoader },
       },
       {
         path: 'books/:bookId',

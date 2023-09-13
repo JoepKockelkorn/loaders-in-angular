@@ -40,7 +40,7 @@ export const loader: ResolveFn<boolean> = (route: ActivatedRouteSnapshot) => {
 export default class BookDetailsAdminComponent {
   #bookService = inject(BooksService);
 
-  @Input() book!: Book;
+  @Input() book!: Resolved<typeof bookLoader>;
 
   async toggle() {
     const book = await this.#bookService.toggleAvailability(this.book.id);

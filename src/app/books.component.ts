@@ -1,7 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MinimalBook } from './books.service';
-import { RouterLink } from '@angular/router';
+import { BooksService, MinimalBook } from './books.service';
+import { ResolveFn, RouterLink } from '@angular/router';
+import { Resolved } from './types';
+
+export const loader: ResolveFn<MinimalBook[]> = () =>
+  inject(BooksService).getBooks();
 
 @Component({
   selector: 'app-books',
@@ -15,5 +19,5 @@ import { RouterLink } from '@angular/router';
   styles: [],
 })
 export default class BooksComponent {
-  @Input() books: MinimalBook[] = [];
+  @Input() books: Resolved<typeof loader> = [];
 }

@@ -10,6 +10,7 @@ import {
 import { Book, BooksService } from './books.service';
 import { AuthService } from './auth.service';
 import { filter, from, of } from 'rxjs';
+import { Resolved } from './types';
 
 export const loader: ResolveFn<Book> = (route: ActivatedRouteSnapshot) => {
   const bookId = route.paramMap.get('bookId');
@@ -66,7 +67,7 @@ export const loader: ResolveFn<Book> = (route: ActivatedRouteSnapshot) => {
 export default class BookDetailsComponent {
   protected user$ = inject(AuthService).user$;
 
-  @Input() book!: Book;
+  @Input() book!: Resolved<typeof loader>;
 
   get bookId() {
     return Number(this.book.id);

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Resolved } from './types';
-import { loader } from './books.loader';
+import { books, loader } from './books.loader';
 
 @Component({
   selector: 'app-books',
@@ -22,5 +22,5 @@ import { loader } from './books.loader';
   ],
 })
 export default class BooksComponent {
-  @Input() books: Resolved<typeof loader> = [];
+  @Input(books) books: Resolved<typeof loader> = [];
 }

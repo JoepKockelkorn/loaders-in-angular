@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './auth.guard';
 import { loader as adminLoader } from './book-details-admin.loader';
 import { loader as bookLoader } from './book-details.loader';
-import { loader as booksLoader } from './books.loader';
+import { booksResolve } from './books.loader';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', loadComponent: () => import('./home.component') },
@@ -11,7 +11,7 @@ export const routes: Routes = [
     path: '',
     canActivate: [authGuard],
     children: [
-      { path: 'books', loadComponent: () => import('./books.component'), resolve: { books: booksLoader } },
+      { path: 'books', loadComponent: () => import('./books.component'), resolve: booksResolve },
       {
         path: 'books/:bookId',
         loadComponent: () => import('./book-details.component'),

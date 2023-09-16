@@ -1,17 +1,8 @@
-import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Book, BooksService } from './books.service';
-import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
-import { filter, map, of } from 'rxjs';
+import { Component, Input, inject } from '@angular/core';
+import { loader as bookLoader } from './book-details.loader';
+import { BooksService } from './books.service';
 import { Resolved } from './types';
-import { loader as bookLoader } from './book-details.component';
-
-export const loader: ResolveFn<boolean> = (route: ActivatedRouteSnapshot) => {
-  return of(route.parent?.data).pipe(
-    map((data) => (data!['book'] as Resolved<typeof bookLoader>).isAdmin ?? false),
-    filter(Boolean),
-  );
-};
 
 @Component({
   selector: 'app-book-details-admin',

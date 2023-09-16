@@ -1,15 +1,9 @@
-import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRouteSnapshot, ResolveFn, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { Book, BooksService } from './books.service';
+import { Component, Input, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from './auth.service';
-import { filter, from, of } from 'rxjs';
+import { loader } from './book-details.loader';
 import { Resolved } from './types';
-
-export const loader: ResolveFn<Book> = (route: ActivatedRouteSnapshot) => {
-  const bookId = route.paramMap.get('bookId');
-  return from(inject(BooksService).getBook(bookId!)).pipe(filter(Boolean));
-};
 
 @Component({
   selector: 'app-book-details',

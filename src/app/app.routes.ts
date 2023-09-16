@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './auth.guard';
-import { loader as adminLoader } from './book-details-admin.component';
-import { loader as bookLoader } from './book-details.component';
-import { loader as booksLoader } from './books.component';
+import { loader as adminLoader } from './book-details-admin.loader';
+import { loader as bookLoader } from './book-details.loader';
+import { loader as booksLoader } from './books.loader';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', loadComponent: () => import('./home.component') },

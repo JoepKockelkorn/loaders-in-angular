@@ -22,7 +22,7 @@ const books: Book[] = [
 
 @Injectable({ providedIn: 'root' })
 export class BooksService {
-  books = books;
+  books = localStorage.getItem('books') ? (JSON.parse(localStorage.getItem('books')!) as Book[]) : books;
 
   getBooks(): Promise<MinimalBook[]> {
     console.log('getBooks');
@@ -37,6 +37,7 @@ export class BooksService {
   toggleAvailability(id: string) {
     console.log('toggleAvailability', id);
     this.books = this.books.map((book) => (book.id === id ? { ...book, isAvailable: !book.isAvailable } : book));
+    localStorage.setItem('books', JSON.stringify(this.books));
     return delayAsPromise(this.books.find((book) => book.id === id));
   }
 }

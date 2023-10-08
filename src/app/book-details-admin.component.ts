@@ -32,9 +32,7 @@ export default class BookDetailsAdminComponent {
   @Input() book!: Resolved<typeof bookLoader>;
 
   async toggle() {
-    const book = await this.#bookService.toggleAvailability(this.book.id);
-    if (!book) return;
-
-    this.#router.navigate([], { onSameUrlNavigation: 'reload' });
+    this.#bookService.toggleAvailability(this.book.id);
+    this.#router.navigate([]);
   }
 }

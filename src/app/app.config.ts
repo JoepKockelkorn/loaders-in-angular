@@ -4,5 +4,5 @@ import { provideRouter, withComponentInputBinding, withRouterConfig } from '@ang
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes, withRouterConfig({ paramsInheritanceStrategy: 'always' }), withComponentInputBinding())],
+  providers: [provideRouter(routes, withRouterConfig({ paramsInheritanceStrategy: 'always', onSameUrlNavigation: 'reload' }), withComponentInputBinding())],
 };

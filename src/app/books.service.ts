@@ -38,7 +38,6 @@ export class BooksService {
     console.log('toggleAvailability', id);
     this.books = this.books.map((book) => (book.id === id ? { ...book, isAvailable: !book.isAvailable } : book));
     localStorage.setItem('books', JSON.stringify(this.books));
-    return delayAsPromise(this.books.find((book) => book.id === id));
   }
 }
 

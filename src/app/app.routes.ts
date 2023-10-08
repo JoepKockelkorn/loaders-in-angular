@@ -20,7 +20,7 @@ export const routes: Routes = [
         resolve: { book: bookLoader },
         children: [
           { path: 'general', loadComponent: () => import('./book-details-general.component') },
-          { path: 'admin', loadComponent: () => import('./book-details-admin.component'), resolve: { isAdmin: adminLoader } },
+          { path: 'admin', loadComponent: () => import('./book-details-admin.component'), resolve: { isAdmin: adminLoader }, runGuardsAndResolvers: 'always' },
           { path: '', redirectTo: 'general', pathMatch: 'full' },
         ],
       },

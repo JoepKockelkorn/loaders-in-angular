@@ -3,6 +3,7 @@ import { Component, Input, inject } from '@angular/core';
 import { loader as bookLoader } from './book-details.loader';
 import { BooksService } from './books.service';
 import { Resolved } from './types';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-details-admin',
@@ -26,6 +27,7 @@ import { Resolved } from './types';
 })
 export default class BookDetailsAdminComponent {
   #bookService = inject(BooksService);
+  #router = inject(Router);
 
   @Input() book!: Resolved<typeof bookLoader>;
 
@@ -33,6 +35,6 @@ export default class BookDetailsAdminComponent {
     const book = await this.#bookService.toggleAvailability(this.book.id);
     if (!book) return;
 
-    this.book = book;
+    this.#router.navigate([], { onSameUrlNavigation: 'reload' });
   }
 }

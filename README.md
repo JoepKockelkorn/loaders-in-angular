@@ -8,4 +8,4 @@ Run `npx ng serve` for a dev server. Navigate to `http://localhost:4200/`. The a
 
 ## Goal
 
-This app was generated as a playground for a new blog post on https://joepkockelkorn.com.
+This app was generated as a playground for this blog post: https://joepkockelkorn.com/blog/loaders-in-angular-revisited.
